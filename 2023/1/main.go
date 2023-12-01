@@ -18,18 +18,36 @@ func main() {
 	}
 	defer file.Close()
 
+	wordToNumbers := []string{
+		"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+	}
+
 	total := int64(0)
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		var nums = make([]int64, 0, 2)
-		for _, c := range scanner.Text() {
-			if c >= '0' && c <= '9' {
-				num := int64(c - '0')
-				if len(nums) == 2 {
-					nums[1] = num
-				} else {
-					nums = append(nums, num)
+		var num *int64
+
+		line := scanner.Text()
+		for i, c := range line {
+			for j, word := range wordToNumbers {
+				if len(word)+i <= len(line) && line[i:i+len(word)] == word {
+					n := int64(j)
+					num = &n
+					break
 				}
+			}
+			if c >= '0' && c <= '9' {
+				n := int64(c - '0')
+				num = &n
+			}
+			if num != nil {
+				if len(nums) == 2 {
+					nums[1] = *num
+				} else {
+					nums = append(nums, *num)
+				}
+				num = nil
 			}
 		}
 		if len(nums) == 0 {
