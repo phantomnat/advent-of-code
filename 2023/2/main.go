@@ -1,6 +1,7 @@
 package main
 
 import (
+	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
@@ -8,19 +9,6 @@ import (
 	"strconv"
 	"strings"
 )
-
-func must(err error, msg string, args ...any) {
-	if err != nil {
-		panic(fmt.Sprintf(msg, args...))
-	}
-}
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
 
 func main() {
 	inputFile := "input.txt"
@@ -43,14 +31,14 @@ func main() {
 		// fmt.Println(line)
 		items := strings.Split(line, " ")
 		gameID, err := strconv.Atoi(items[1][:len(items[1])-1])
-		must(err, "invalid gameID '%v'", items[1])
+		utils.Must(err, "invalid gameID")
 		possible := true
 		r, g, b := 0, 0, 0
 
 		// fmt.Println("game id", gameID)
 		for i := 2; i+1 < len(items); i += 2 {
 			no, err := strconv.Atoi(items[i])
-			must(err, "invalid number '%v'", items[i])
+			utils.Must(err, "invalid number")
 
 			color := strings.TrimRightFunc(items[i+1], func(r rune) bool {
 				switch r {
@@ -72,15 +60,10 @@ func main() {
 				b = max(b, no)
 			default:
 			}
-			// if !possible {
-			// 	break
-			// }
-			// fmt.Println("no", no, "color", color)
 		}
 		if possible {
 			result += gameID
 		}
-		// game 2
 		fmt.Println("game id", gameID, "rgb", (r * g * b))
 		result2 += (r * g * b)
 	}

@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"aoc/utils"
 )
 
 type Coor struct {
@@ -16,15 +18,6 @@ type Coor struct {
 type Fold struct {
 	PosX *int
 	PosY *int
-}
-
-func Int(a int) *int {
-	return &a
-}
-func must(err error) {
-	if err != nil {
-		panic(err)
-	}
 }
 
 func main() {
@@ -50,15 +43,14 @@ func main() {
 		if strings.Contains(line, "fold along ") {
 			fold := strings.Split(line[len("fold along "):], "=")
 			pos, err := strconv.Atoi(fold[1])
-			must(err)
+			utils.Must(err)
 
-			// fmt.Println("fold", fold)
 			f := Fold{}
 			switch fold[0] {
 			case "x":
-				f.PosX = Int(pos)
+				f.PosX = utils.Pointer(pos)
 			case "y":
-				f.PosY = Int(pos)
+				f.PosY = utils.Pointer(pos)
 			}
 			folds = append(folds, f)
 			continue
@@ -66,14 +58,11 @@ func main() {
 		coor := strings.Split(line, ",")
 		x, _ := strconv.Atoi(coor[0])
 		y, _ := strconv.Atoi(coor[1])
-		dots[Coor{x, y}] = true
 		// fmt.Println("coor", x, y)
-		if x > maxX {
-			maxX = x
-		}
-		if y > maxY {
-			maxY = y
-		}
+		dots[Coor{x, y}] = true
+
+		maxX = max(maxX, x)
+		maxY = max(maxY, y)
 	}
 	// print(dots, minX, minY, maxX, maxY)
 
