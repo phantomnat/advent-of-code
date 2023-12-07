@@ -10,3 +10,9 @@ func Must(err error, msg ...string) {
 		panic(fmt.Sprintf("error: %+v", err))
 	}
 }
+
+func MustTrue(cond bool, msg string, args ...any) {
+	if !cond {
+		panic(fmt.Sprintf(msg, args...))
+	}
+}
