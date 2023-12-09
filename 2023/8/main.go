@@ -1,12 +1,13 @@
 package main
 
 import (
-	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"strings"
+
+	"aoc/util"
 )
 
 type Node struct {
@@ -63,7 +64,7 @@ func main() {
 		} else if c == 'R' {
 			currentNode = nodes[currentNode].Right
 		} else {
-			utils.MustTrue(1 == 0, "unknown instruction: %c", c)
+			util.MustTrue(1 == 0, "unknown instruction: %c", c)
 		}
 		stepCount++
 	}
@@ -90,7 +91,7 @@ func main() {
 			} else if c == 'R' {
 				currentNode = nodes[currentNode].Right
 			} else {
-				utils.MustTrue(1 == 0, "unknown instruction: %c", c)
+				util.MustTrue(1 == 0, "unknown instruction: %c", c)
 			}
 
 			stepCount++

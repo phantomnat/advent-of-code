@@ -1,7 +1,6 @@
 package main
 
 import (
-	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
@@ -9,8 +8,9 @@ import (
 	"os"
 	"slices"
 	"sort"
-	"strconv"
 	"strings"
+
+	"aoc/util"
 )
 
 type Pair struct {
@@ -61,8 +61,7 @@ func main() {
 		switch {
 		case strings.HasPrefix(line, "seeds: "):
 			for _, txt := range strings.Split(line[7:], " ") {
-				num, err := strconv.ParseInt(txt, 10, 64)
-				utils.Must(err)
+				num := util.ParseInt64(txt)
 				seeds = append(seeds, num)
 			}
 			continue
@@ -90,14 +89,11 @@ func main() {
 		}
 		items := strings.Split(line, " ")
 		if len(items) != 3 {
-			utils.Must(fmt.Errorf("invalid input: %s, expecting 3 numbers", line))
+			util.Must(fmt.Errorf("invalid input: %s, expecting 3 numbers", line))
 		}
-		dest, err := strconv.ParseInt(items[0], 10, 64)
-		utils.Must(err)
-		src, err := strconv.ParseInt(items[1], 10, 64)
-		utils.Must(err)
-		length, err := strconv.ParseInt(items[2], 10, 64)
-		utils.Must(err)
+		dest := util.ParseInt64(items[0])
+		src := util.ParseInt64(items[1])
+		length := util.ParseInt64(items[2])
 		// fmt.Println("dest:", dest, "src:", src, "length:", length)
 		// var targetMap map[int]int
 		switch {

@@ -1,13 +1,14 @@
 package main
 
 import (
-	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
 	"strings"
+
+	"aoc/util"
 )
 
 func main() {
@@ -31,14 +32,14 @@ func main() {
 		// fmt.Println(line)
 		items := strings.Split(line, " ")
 		gameID, err := strconv.Atoi(items[1][:len(items[1])-1])
-		utils.Must(err, "invalid gameID")
+		util.Must(err, "invalid gameID")
 		possible := true
 		r, g, b := 0, 0, 0
 
 		// fmt.Println("game id", gameID)
 		for i := 2; i+1 < len(items); i += 2 {
 			no, err := strconv.Atoi(items[i])
-			utils.Must(err, "invalid number")
+			util.Must(err, "invalid number")
 
 			color := strings.TrimRightFunc(items[i+1], func(r rune) bool {
 				switch r {

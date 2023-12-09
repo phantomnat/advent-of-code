@@ -16,29 +16,31 @@ func main() {
 	}
 	defer file.Close()
 
+	resultPart1 := int64(0)
+	resultPart2 := int64(0)
+
 	scanner := bufio.NewScanner(file)
+
+	// ---
+	// put code here
+
+	// ---
+	inputCount := 0
 	for scanner.Scan() {
+		inputCount++
 		line := scanner.Text()
 		fmt.Println(line)
-	}
-}
+		if line == "" {
+			continue
+		}
 
-func must(err error, msg string, args ...any) {
-	if err != nil {
-		panic(fmt.Sprintf(msg, args...))
 	}
-}
 
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
+	// another code
 
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	fmt.Println("part 1:", resultPart1)
+
+	// part 2 code
+
+	fmt.Println("part 2:", resultPart2)
 }

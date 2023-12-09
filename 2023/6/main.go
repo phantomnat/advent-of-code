@@ -1,13 +1,13 @@
 package main
 
 import (
-	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
 	"os"
-	"strconv"
 	"strings"
+
+	"aoc/util"
 )
 
 type Pos struct {
@@ -41,7 +41,7 @@ func main() {
 	var distances []int
 	var part2Time string
 	var part2Distance string
-	var inputCount = 0
+	inputCount := 0
 	for scanner.Scan() {
 		inputCount++
 		line := scanner.Text()
@@ -50,15 +50,13 @@ func main() {
 		if inputCount == 1 {
 			for _, txt := range fields[1:] {
 				part2Time += txt
-				num, err := strconv.Atoi(txt)
-				utils.Must(err)
+				num := util.ParseInt(txt)
 				times = append(times, num)
 			}
 		} else if inputCount == 2 {
 			for _, txt := range fields[1:] {
 				part2Distance += txt
-				num, err := strconv.Atoi(txt)
-				utils.Must(err)
+				num := util.ParseInt(txt)
 				distances = append(distances, num)
 			}
 		}
@@ -83,10 +81,8 @@ func main() {
 	}
 	fmt.Println("part 1:", resultPart1)
 
-	time2, err := strconv.ParseInt(part2Time, 10, 64)
-	utils.Must(err)
-	distance2, err := strconv.ParseInt(part2Distance, 10, 64)
-	utils.Must(err)
+	time2 := util.ParseInt64(part2Time)
+	distance2 := util.ParseInt64(part2Distance)
 	firstWinIndex := int64(0)
 	for i := int64(1); i < time2; i++ {
 		minSpeed := distance2 / (time2 - i)

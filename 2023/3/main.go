@@ -1,12 +1,13 @@
 package main
 
 import (
-	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"strconv"
+
+	"aoc/util"
 )
 
 type Pos struct {
@@ -35,9 +36,9 @@ func main() {
 	resultPart1 := 0
 	resultPart2 := 0
 
-	var symbols = make(map[Pos]bool)
-	var gears = make(map[Pos]*Gear)
-	var numbers = make(map[Pos]Number)
+	symbols := make(map[Pos]bool)
+	gears := make(map[Pos]*Gear)
+	numbers := make(map[Pos]Number)
 
 	scanner := bufio.NewScanner(file)
 	y := 0
@@ -70,7 +71,7 @@ func main() {
 			if num != nil {
 				text := line[num.X : num.X+num.Length]
 				value, err := strconv.Atoi(text)
-				utils.Must(err)
+				util.Must(err)
 				num.Value = value
 				numbers[Pos{X: num.X, Y: num.Y}] = *num
 				// numbers = append(numbers, *num)
@@ -81,7 +82,7 @@ func main() {
 		if num != nil {
 			text := line[num.X : num.X+num.Length]
 			value, err := strconv.Atoi(text)
-			utils.Must(err)
+			util.Must(err)
 			num.Value = value
 			numbers[Pos{X: num.X, Y: num.Y}] = *num
 			// numbers = append(numbers, *num)

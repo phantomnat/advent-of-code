@@ -1,14 +1,14 @@
 package main
 
 import (
-	"aoc/utils"
 	"bufio"
 	"fmt"
 	"log"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
+
+	"aoc/util"
 )
 
 type CardSetStrength int64
@@ -98,7 +98,6 @@ func GetCardSetStrength(counts map[rune]int64) CardSetStrength {
 		case 2:
 			pairCount++
 		}
-
 	}
 	// one pair or two pairs
 	if pairCount == 2 {
@@ -199,14 +198,14 @@ func main() {
 		// fmt.Println(line)
 
 		fields := strings.Fields(line)
-		utils.MustTrue(len(fields) == 2, "expect 2 fields from '%s'", line)
+		util.MustTrue(len(fields) == 2, "expect 2 fields from '%s'", line)
 		cards := fields[0]
-		bid, err := strconv.ParseInt(fields[1], 10, 64)
-		utils.Must(err)
+		// bid, err := strconv.ParseInt(fields[1], 10, 64)
+		// util.Must(err)
 
 		player := PlayerHand{
 			Card: cards,
-			Bid:  bid,
+			Bid:  util.ParseInt64(fields[1]),
 		}
 
 		cardCounts := make(map[rune]int64)
