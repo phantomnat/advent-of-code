@@ -444,20 +444,27 @@ func main() {
 
 	for y := 0; y < maxY; y++ {
 		p1 := OuterPos{Pos{0, y}, OuterPosSideAll}
-		if _, exist := pipeDistances[p1.Pos]; exist {
-			continue
+		if _, exist := pipeDistances[p1.Pos]; !exist {
+			outerLoops = append(outerLoops, p1)
+			outerLoopVisits[p1.Pos] = struct{}{}
 		}
 		p2 := OuterPos{Pos{maxX - 1, y}, OuterPosSideAll}
-		outerLoops = append(outerLoops, p1, p2)
-		outerLoopVisits[p1.Pos] = struct{}{}
-		outerLoopVisits[p2.Pos] = struct{}{}
+		if _, exist := pipeDistances[p2.Pos]; !exist {
+			outerLoops = append(outerLoops, p2)
+			outerLoopVisits[p2.Pos] = struct{}{}
+		}
 	}
 	for x := 0; x < maxX; x++ {
 		p1 := OuterPos{Pos{x, 0}, OuterPosSideAll}
+		if _, exist := pipeDistances[p1.Pos]; !exist {
+			outerLoops = append(outerLoops, p1)
+			outerLoopVisits[p1.Pos] = struct{}{}
+		}
 		p2 := OuterPos{Pos{x, maxY - 1}, OuterPosSideAll}
-		outerLoops = append(outerLoops, p1, p2)
-		outerLoopVisits[p1.Pos] = struct{}{}
-		outerLoopVisits[p2.Pos] = struct{}{}
+		if _, exist := pipeDistances[p2.Pos]; !exist {
+			outerLoops = append(outerLoops, p2)
+			outerLoopVisits[p2.Pos] = struct{}{}
+		}
 	}
 
 	for len(outerLoops) > 0 {
@@ -515,10 +522,10 @@ func main() {
 				outerLoops = append(outerLoops, nextP)
 			}
 			nextOuterLoops = make(map[OuterPos]struct{})
-			// printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
+			printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
 		}
 	}
-	printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
+	// printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
 
 	buf := &bytes.Buffer{}
 	for y := 0; y < maxY; y++ {
