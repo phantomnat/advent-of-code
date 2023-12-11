@@ -293,51 +293,6 @@ func (p Pipe) NextOuter(in OuterPos) OuterPos {
 	return newOuterPos(p.Pos, 0, 0, side)
 }
 
-func (p Pipe) Next(x, y int) (int, int) {
-	addX, addY := 0, 0
-	isUpper := y == p.Y-1
-	isLower := y == p.Y+1
-	isLeft := x == p.X-1
-	isRight := x == p.X+1
-	switch p.Type {
-	case "|":
-		addY = 1
-		if isLower {
-			addY = -1
-		}
-	case "-":
-		addX = 1
-		if isRight {
-			addX = -1
-		}
-	case "L":
-		if isUpper {
-			addX = 1
-		} else if isRight {
-			addY = -1
-		}
-	case "J":
-		if isUpper {
-			addX = -1
-		} else if isLeft {
-			addY = -1
-		}
-	case "7":
-		if isLower {
-			addX = -1
-		} else if isLeft {
-			addY = 1
-		}
-	case "F":
-		if isLower {
-			addX = 1
-		} else if isRight {
-			addY = 1
-		}
-	}
-	return p.X + addX, p.Y + addY
-}
-
 func main() {
 	inputFile := "input.txt"
 
@@ -522,10 +477,10 @@ func main() {
 				outerLoops = append(outerLoops, nextP)
 			}
 			nextOuterLoops = make(map[OuterPos]struct{})
-			printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
+			// printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
 		}
 	}
-	// printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
+	printMap(maxX, maxY, start, pipeDistances, pipes, outerLoopVisits)
 
 	buf := &bytes.Buffer{}
 	for y := 0; y < maxY; y++ {
