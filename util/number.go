@@ -1,6 +1,8 @@
 package util
 
-import "strconv"
+import (
+	"strconv"
+)
 
 func ParseInt64(input string) int64 {
 	out, err := strconv.ParseInt(input, 10, 64)
@@ -37,4 +39,17 @@ func IsTheSame(input []int64, target int64) bool {
 		}
 	}
 	return true
+}
+
+type Number interface {
+	~int | ~int8 | ~int16 | ~int32 | ~int64 |
+		~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 | ~uintptr |
+		~float32 | ~float64
+}
+
+func Abs[T Number](input T) T {
+	if input < 0 {
+		return -input
+	}
+	return input
 }
