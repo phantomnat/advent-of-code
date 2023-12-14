@@ -2,7 +2,22 @@ package util
 
 import (
 	"strconv"
+	"strings"
 )
+
+func ParseNumbersFromString[T Number](input, sep string) []T {
+	var out []T
+	for _, i := range strings.Split(input, sep) {
+		out = append(out, ParseNumber[T](i))
+	}
+	return out
+}
+
+func ParseNumber[T Number](input string) T {
+	out, err := strconv.ParseInt(input, 10, 64)
+	Must(err, input+"is not a valid number")
+	return T(out)
+}
 
 func ParseInt64(input string) int64 {
 	out, err := strconv.ParseInt(input, 10, 64)
@@ -52,4 +67,16 @@ func Abs[T Number](input T) T {
 		return -input
 	}
 	return input
+}
+
+func Match[T Number](a, b []T) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := 0; i < len(a); i++ {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
 }
