@@ -1,6 +1,8 @@
 use std::fs;
 use std::io::BufRead;
 use std::io::BufReader;
+use std::ops::Mul;
+use std::str::FromStr;
 
 fn main() {
     let filename = file!().replace("main.rs", "input.txt");
@@ -11,8 +13,7 @@ fn main() {
     let mut part2: i64 = 0;
     let mut adding = true;
 
-    for line in reader.lines() {
-        let line = line.unwrap();
+    for line in reader.lines().filter_map(Result::ok) {
         let mut idx = 0;
         while idx + 9 < line.len() {
             let four = &line[idx..idx+4];
@@ -25,7 +26,7 @@ fn main() {
                 idx += four.len();
             } else if four == "mul(" {
                 // let num = get_num(&line[idx+4..]);
-                match get_num(&line[idx+4..]) {
+                match get_num2::<i64>(&line[idx+4..]) {
                     Some(v) => {
                         part1 += v;
                         if adding { part2 += v }
@@ -41,6 +42,16 @@ fn main() {
 
     println!("part 1: {part1}");
     println!("part 2: {part2}");
+}
+
+fn get_num2<T>(item: &str) -> Option<T::Output> where T: FromStr + Mul<Output = T> {
+    let (nums, _) = item.split_once(')')?;
+    let (left, right) = nums.split_once(',')?;
+
+    let left_num = left.parse::<T>().ok()?;
+    let right_num = right.parse::<T>().ok()?;
+
+    Some(left_num * right_num)
 }
 
 fn get_num(item: &str) -> Option<i64> {
